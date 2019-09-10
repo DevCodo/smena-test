@@ -34,9 +34,9 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
-      <v-btn color="success" @click="onSubmit" :disabled="processing">Зарегистрироваться</v-btn>
+      <v-btn color="info" @click="onSubmit" :disabled="processing">Зарегистрироваться</v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="info" to="/login">Авторизация</v-btn>
+      <v-btn color="success" to="/login">Авторизация</v-btn>
     </v-card-actions>
   </v-card>
 </template>
