@@ -30,6 +30,17 @@
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="showPassword = !showPassword"
         />
+        <v-text-field 
+          v-model="secondPassword"
+          :rules="secondPasswordRules"
+          required
+          label="Повторите ралоль" 
+          @keyup.enter="onSubmit"
+          :type="showPassword ? 'text' : 'password'" 
+          prepend-icon="mdi-lock"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="showPassword = !showPassword"
+        />
       </v-form>
     </v-card-text>
     <v-divider></v-divider>
@@ -53,20 +64,27 @@ export default {
     this.$store.commit('setError', null)
     if (this.user) this.$router.push('/')
   },
-
-  data: () => ({
-    showPassword: false,
-    username: "",
-    nameRules: [
-      v => !!v || 'Имя обязательно для заполнения',
-      // v => !(v.length <= 5) || 'Имя должно быть больше 5 символов',
-    ],
-    password: "",
-    passwordRules: [
-      v => !!v || 'Пароль обязателен для заполнения',
-      // v => !(v.length <= 5) || 'Длина пароля должна быть больше 8 символов',
-    ],
-  }),
+  data() {
+    return {
+      showPassword: false,
+      username: "",
+      nameRules: [
+        v => !!v || 'Имя обязательно для заполнения',
+        // v => !(v.length <= 5) || 'Имя должно быть больше 5 символов',
+      ],
+      password: "",
+      passwordRules: [
+        v => !!v || 'Пароль обязателен для заполнения',
+        // v => !(v.length <= 5) || 'Длина пароля должна быть больше 8 символов',
+      ],
+      secondPassword: "",
+      secondPasswordRules: [
+        v => !!v || 'Пароль обязателен для заполнения',
+        v => v === this.password || 'Пароль не совпадает',
+        // v => !(v.length <= 5) || 'Длина пароля должна быть больше 8 символов',
+      ],
+    }
+  },
 
   computed: {
     ...mapGetters(['processing', 'error', 'message', 'user']),
@@ -99,6 +117,7 @@ export default {
       if (val) {
         this.$refs.form.resetValidation()
         this.password = "";
+        this.secondPassword = "";
         this.username = "";
       }
     }
