@@ -10,7 +10,7 @@ export default new Vuex.Store({
     processing: false,
     error: null,
     message: null,
-    messageProfile: "Пользователь не авторизован",
+    messageProfile: null,
     user: null,
     token: null,
   },
@@ -121,6 +121,7 @@ export default new Vuex.Store({
     logout({commit}) {
       commit('setUser', null)
       commit('cleanToken')
+      commit('setMessageProfile', "Пользователь не авторизован")
     }
   }
 })

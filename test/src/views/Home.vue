@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card
-      v-if="!user" 
+      v-if="!user && messageProfile" 
       class="mx-auto mt-12"
       max-width="434"
       tile
