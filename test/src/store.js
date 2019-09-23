@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from './router'
 
 Vue.use(Vuex)
 
@@ -10,17 +11,15 @@ export default new Vuex.Store({
     processing: false,
     error: null,
     message: null,
-    messageProfile: null,
     user: null,
-    token: null,
+    messageProfile: null,
   },
   getters: {
     processing: (state) => state.processing,
     error: (state) => state.error,
     message: (state) => state.message,
-    messageProfile: (state) => state.messageProfile,
     user: (state) => state.user,
-    token: (state) => state.token,
+    messageProfile: (state) => state.messageProfile,
   },
   mutations: {
     setProcessing(state, param) {
@@ -32,26 +31,19 @@ export default new Vuex.Store({
     setMessage(state, message) {
       state.message = message
     },
-    setMessageProfile(state, message) {
-      state.messageProfile = message
-    },
-    setToken(state, token) {
-      state.token = token
-    },
     setUser(state, data) {
       state.user = data
     },
-    cleanToken(state) {
-      state.token = null
-      localStorage.removeItem('token')
+    setMessageProfile(state, message) {
+      state.messageProfile = message
     },
   },
   actions: {
-    autorisation({commit}, toket) {
+    getAboutUser({commit}, token) {
       fetch(`${_baseUrl}/about/`, {
         method: 'get',
         headers: {
-          'Authorization': `Bearer ${toket}`,
+          'Authorization': `Bearer ${token}`,
         }
       }).then((res) => {
         return res.json();
@@ -92,7 +84,7 @@ export default new Vuex.Store({
       })
     },
 
-    login({commit}, data) {
+    login({commit, dispatch}, data) {
       commit('setProcessing', true)
       fetch(`${_baseUrl}/login/`, {
         method: 'post',
@@ -106,9 +98,11 @@ export default new Vuex.Store({
         if (error) {
           commit('setError', error)
         } else {
+          commit('setMessageProfile', null)
           commit('setError', null)
-          commit('setToken', token)
+          dispatch('getAboutUser', token)
           localStorage.setItem('token', token)
+          router.push('/')
         }
         commit('setProcessing', false)
       }).catch(() => {
@@ -119,9 +113,9 @@ export default new Vuex.Store({
     },
     
     logout({commit}) {
+      router.push('/login')
       commit('setUser', null)
-      commit('cleanToken')
-      commit('setMessageProfile', "Пользователь не авторизован")
+      localStorage.removeItem('token')
     }
   }
 })

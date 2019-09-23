@@ -62,7 +62,6 @@ export default {
   created() {
     this.$store.commit('setMessage', null)
     this.$store.commit('setError', null)
-    if (this.user) this.$router.push('/')
   },
   data() {
     return {
@@ -70,18 +69,15 @@ export default {
       username: "",
       nameRules: [
         v => !!v || 'Имя обязательно для заполнения',
-        // v => !(v.length <= 5) || 'Имя должно быть больше 5 символов',
       ],
       password: "",
       passwordRules: [
         v => !!v || 'Пароль обязателен для заполнения',
-        // v => !(v.length <= 5) || 'Длина пароля должна быть больше 8 символов',
       ],
       secondPassword: "",
       secondPasswordRules: [
         v => !!v || 'Пароль обязателен для заполнения',
         v => v === this.password || 'Пароль не совпадает',
-        // v => !(v.length <= 5) || 'Длина пароля должна быть больше 8 символов',
       ],
     }
   },

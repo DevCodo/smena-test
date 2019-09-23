@@ -52,7 +52,6 @@ export default {
   created() {
     this.$store.commit('setMessage', null)
     this.$store.commit('setError', null)
-    if (this.user) this.$router.push('/')
   },
 
   data: () => ({
@@ -69,7 +68,7 @@ export default {
   }),
 
   computed: {
-    ...mapGetters(['processing', 'error', 'token', 'user']),
+    ...mapGetters(['processing', 'error']),
     showError() {
       return this.error !== null
     },
@@ -85,18 +84,5 @@ export default {
       }
     }
   },
-
-  watch: {
-    token(val) {
-      if (val) {
-        this.$store.dispatch('autorisation', val)
-      }
-    },
-    user(val) {
-      if (val) {
-        this.$router.push('/')
-      }
-    }
-  }
 };
 </script>

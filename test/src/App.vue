@@ -17,7 +17,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch('autorisation', localStorage.getItem('token'))
+    this.$store.dispatch('getAboutUser', localStorage.getItem('token'))
   }
  
 };
